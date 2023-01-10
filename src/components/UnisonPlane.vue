@@ -142,7 +142,7 @@ const commaElements = computed(() => {
 });
 
 function highlight(e: any) {
-  emit("highlight", { monzo: e.monzo, cents: e.cents });
+  emit("highlight", { key: e.key, cents: e.cents });
 }
 </script>
 

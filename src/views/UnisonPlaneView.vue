@@ -1,31 +1,71 @@
 <script setup lang="ts">
-import { Subgroup } from "temperaments";
-import { Fraction, type Monzo } from "xen-dev-utils";
+import { getCommaNames, Subgroup } from "temperaments";
+import { computed, ref } from "vue";
+import { add, Fraction, toMonzo } from "xen-dev-utils";
 import UnisonPlane from "../components/UnisonPlane.vue";
 
-const subgroup = new Subgroup(5);
+const subgroup = ref<Subgroup>(new Subgroup(5));
 
-const offset = new Fraction(1);
+const offset = ref(new Fraction(7));
 
-function onHighlight(info: { monzo: Monzo; cents: number }) {
-  let fraction = offset;
-  for (let i = 0; i < subgroup.basis.length; ++i) {
-    fraction = fraction.mul(subgroup.basis[i].pow(info.monzo[i]));
+const key = ref("");
+const cents = ref(0);
+
+function getSubgroupMonzo() {
+  return key.value.split(",").map((coordinate) => parseInt(coordinate));
+}
+
+const primeMonzo = computed(() =>
+  add(
+    subgroup.value.resolveMonzo(getSubgroupMonzo(), true),
+    toMonzo(offset.value)
+  )
+);
+const names = computed(() => getCommaNames(primeMonzo.value));
+const fraction = computed(() => {
+  try {
+    const monzo = getSubgroupMonzo();
+    for (const component of monzo) {
+      if (isNaN(component)) {
+        return offset.value;
+      }
+    }
+    return subgroup.value.toFraction(monzo).mul(offset.value);
+  } catch (e) {
+    return new Fraction(1);
   }
-  console.log(info.monzo, info.cents, fraction.toFraction());
+});
+
+function onHighlight(info: { key: string; cents: number }) {
+  key.value = info.key;
+  cents.value = info.cents;
 }
 </script>
 
 <template>
   <main>
-    <h1>Unison plane (commas)</h1>
-    <UnisonPlane
-      :subgroup="subgroup"
-      :zoomLevel="20"
-      :offset="offset"
-      @highlight="onHighlight"
-    />
+    <div class="columns-container">
+      <div class="column">
+        <UnisonPlane
+          :subgroup="subgroup"
+          :zoomLevel="20"
+          :offset="offset"
+          @highlight="onHighlight"
+        />
+      </div>
+      <div class="column">
+        <h1>Unison plane (commas)</h1>
+        <p><b>Names:</b> {{ names.join(", ") }}</p>
+        <p><b>Cents:</b> {{ cents.toFixed(3) }} ¢</p>
+        <p><b>Fraction:</b> {{ fraction.toFraction() }}</p>
+      </div>
+    </div>
   </main>
 </template>
 
-<style></style>
+<style scoped>
+div.columns-container {
+  display: flex;
+  column-count: 2;
+}
+</style>
