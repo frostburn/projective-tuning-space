@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { centsToNats, dot, Fraction, gcd, natsToCents } from "xen-dev-utils";
-import { getAlgebra, type Subgroup } from "temperaments";
+import { getAlgebra, Subgroup } from "temperaments";
 import { computed } from "vue";
 
 const props = defineProps<{
-  subgroup: Subgroup;
+  subgroup: string;
   zoomLevel: number;
   offset: Fraction;
 }>();
@@ -20,7 +20,9 @@ const viewBox = computed(
 
 const algebra = getAlgebra(3, "float64");
 
-const basisNats = computed(() => props.subgroup.jip("nats"));
+const subgroup = computed(() => new Subgroup(props.subgroup));
+
+const basisNats = computed(() => subgroup.value.jip("nats"));
 
 const offsetNats = computed(() => Math.log(props.offset.valueOf()));
 

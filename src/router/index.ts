@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import UnisonPlaneView from "../views/UnisonPlaneView.vue";
+import RankThreeView from "../views/RankThreeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
       path: "/unison",
       name: "unisonPlane",
       component: UnisonPlaneView,
+    },
+    {
+      path: "/rank3",
+      name: "rankThree",
+      component: RankThreeView,
     },
   ],
 });
