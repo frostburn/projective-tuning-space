@@ -4,7 +4,7 @@ import type Temperament from "temperaments";
 import { simplifyCommas } from "temperaments";
 import { reactive, ref } from "vue";
 import { monzoToFraction } from "xen-dev-utils";
-import ProjectiveTuningSpace from "../components/ProjectiveTuningSpace.vue";
+import ProjectiveTuningPlane from "../components/ProjectiveTuningPlane.vue";
 
 const subgroup = ref("2.3.5");
 
@@ -88,7 +88,7 @@ function onHighlight(temperament: Temperament) {
   <main>
     <div class="columns-container">
       <div class="column">
-        <ProjectiveTuningSpace
+        <ProjectiveTuningPlane
           :subgroup="subgroup"
           :zoomLevel="0.005"
           :wartss="wartss"

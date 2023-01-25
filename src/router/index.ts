@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import UnisonPlaneView from "../views/UnisonPlaneView.vue";
 import RankThreeView from "../views/RankThreeView.vue";
+import MonzoSpaceView from "../views/MonzoSpaceView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,11 @@ const router = createRouter({
       path: "/rank3",
       name: "rankThree",
       component: RankThreeView,
+    },
+    {
+      path: "/monzo-space",
+      name: "monzoSpace",
+      component: MonzoSpaceView,
     },
   ],
 });
