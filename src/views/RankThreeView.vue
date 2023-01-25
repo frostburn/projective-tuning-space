@@ -4,22 +4,11 @@ import type Temperament from "temperaments";
 import { simplifyCommas } from "temperaments";
 import { reactive, ref } from "vue";
 import { monzoToFraction } from "xen-dev-utils";
-import ProjectiveTuningSpace from "../components/ProjectiveTuningSpace.vue";
+import RankThreeSpace from "../components/RankThreeSpace.vue";
 
-const subgroup = ref("2.3.5");
+const subgroupString = ref("2.3.5.7");
 
-const wartss = reactive([
-  "7",
-  "10",
-  "12",
-  "15",
-  "17",
-  "17c",
-  "19",
-  "22",
-  "31",
-  "53",
-]);
+const wartss = reactive(["3", "5", "7"]);
 
 const title = ref("");
 const subtitle = ref("");
@@ -35,7 +24,7 @@ function onHighlight(temperament: Temperament) {
     } else {
       subtitle.value = "";
     }
-    if (val[0] <= 200) {
+    if (val[0] <= 100) {
       commas.value = simplifyCommas(
         temperament
           .commaFactorize()
@@ -58,13 +47,7 @@ function onHighlight(temperament: Temperament) {
         "]".repeat(rank);
       title.value = wedgie;
       subtitle.value = "";
-      if (rank === 2) {
-        commas.value = temperament.subgroup
-          .toFraction([...temperament.value.dual().vector()])
-          .toFraction();
-      } else {
-        commas.value = "";
-      }
+      commas.value = "?";
       vals.value = "?";
     } else {
       title.value = data.title;
@@ -88,15 +71,15 @@ function onHighlight(temperament: Temperament) {
   <main>
     <div class="columns-container">
       <div class="column">
-        <ProjectiveTuningSpace
-          :subgroup="subgroup"
-          :zoomLevel="0.005"
+        <RankThreeSpace
+          :subgroup="subgroupString"
+          :zoomLevel="4.5"
           :wartss="wartss"
           @highlight="onHighlight"
         />
       </div>
       <div class="column">
-        <h1>Projective Tuning Space (vals)</h1>
+        <h1>Rank three space</h1>
         <p><b>Title:</b> {{ title }}</p>
         <p><b>Subtitle:</b> {{ subtitle }}</p>
         <p><b>Commas:</b> {{ commas }}</p>

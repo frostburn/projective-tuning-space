@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { getCommaNames, Subgroup } from "temperaments";
+import { Subgroup } from "temperaments";
+import { getCommaNames } from "named-temperaments";
 import { computed, ref } from "vue";
 import { add, Fraction, toMonzo } from "xen-dev-utils";
 import UnisonPlane from "../components/UnisonPlane.vue";
 
-const subgroup = ref<Subgroup>(new Subgroup(5));
+const subgroupString = ref("2.3.5");
 
 const offset = ref(new Fraction(7));
 
@@ -14,6 +15,8 @@ const cents = ref(0);
 function getSubgroupMonzo() {
   return key.value.split(",").map((coordinate) => parseInt(coordinate));
 }
+
+const subgroup = computed(() => new Subgroup(subgroupString.value));
 
 const primeMonzo = computed(() =>
   add(
@@ -47,7 +50,7 @@ function onHighlight(info: { key: string; cents: number }) {
     <div class="columns-container">
       <div class="column">
         <UnisonPlane
-          :subgroup="subgroup"
+          :subgroup="subgroupString"
           :zoomLevel="20"
           :offset="offset"
           @highlight="onHighlight"
@@ -56,7 +59,7 @@ function onHighlight(info: { key: string; cents: number }) {
       <div class="column">
         <h1>Unison plane (commas)</h1>
         <p><b>Names:</b> {{ names.join(", ") }}</p>
-        <p><b>Cents:</b> {{ cents.toFixed(3) }} ¢</p>
+        <p><b>Size:</b> {{ cents.toFixed(3) }} ¢</p>
         <p><b>Fraction:</b> {{ fraction.toFraction() }}</p>
       </div>
     </div>
