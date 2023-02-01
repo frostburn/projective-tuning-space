@@ -4,7 +4,7 @@ import type Temperament from "temperaments";
 import { simplifyCommas } from "temperaments";
 import { reactive, ref } from "vue";
 import { monzoToFraction } from "xen-dev-utils";
-import RankThreeSpace from "../components/RankThreeSpace.vue";
+import RankThreePlane from "../components/RankThreePlane.vue";
 
 const subgroupString = ref("2.3.5.7");
 
@@ -71,7 +71,7 @@ function onHighlight(temperament: Temperament) {
   <main>
     <div class="columns-container">
       <div class="column">
-        <RankThreeSpace
+        <RankThreePlane
           :subgroup="subgroupString"
           :zoomLevel="4.5"
           :wartss="wartss"

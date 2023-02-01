@@ -7,6 +7,7 @@ import { RouterLink, RouterView } from "vue-router";
     <RouterLink to="/">PTS</RouterLink>
     <RouterLink to="/unison">Unison plane</RouterLink>
     <RouterLink to="/rank3">Rank-3</RouterLink>
+    <RouterLink to="/monzo-space">Monzo space</RouterLink>
     <RouterLink to="/about">About</RouterLink>
   </nav>
   <RouterView />
